@@ -17,11 +17,15 @@ public class SlidePanel : MonoBehaviour
 
     [Header("Animación")]
     [SerializeField] private float duration = 0.35f;
+    [SerializeField] private float delay = 0.2f;
     [SerializeField] private AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private bool startOpen = false;
 
     private Coroutine currentRoutine;
     private bool isOpen;
+    private float unlockTime; // tiempo en el que se puede volver a abrir/cerrar el panel
+
+    private bool IsLocked => Time.unscaledTime < unlockTime;
 
     private void Awake()
     {
@@ -32,14 +36,20 @@ public class SlidePanel : MonoBehaviour
 
     public void Open()
     {
-        isOpen = true;
-        MoveTo(openPosition);
+        if (!isOpen && !IsLocked)
+        {
+            isOpen = true;
+            MoveTo(openPosition);
+        }
     }
 
     public void Close()
     {
-        isOpen = false;
-        MoveTo(closedPosition);
+        if (isOpen && !IsLocked)
+        {
+            isOpen = false;
+            MoveTo(closedPosition);
+        }
     }
 
     public void Toggle()
@@ -50,12 +60,15 @@ public class SlidePanel : MonoBehaviour
 
     private void MoveTo(Vector2 target)
     {
+        unlockTime = Time.unscaledTime + delay + duration;
         if (currentRoutine != null) StopCoroutine(currentRoutine);
         currentRoutine = StartCoroutine(Move(target));
     }
 
     private IEnumerator Move(Vector2 target)
     {
+        if (delay > 0f) yield return new WaitForSecondsRealtime(delay);
+
         Vector2 start = panel.anchoredPosition;
         float t = 0f;
 
