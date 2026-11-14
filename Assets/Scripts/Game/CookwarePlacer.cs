@@ -14,6 +14,8 @@ public class CookwarePlacer : MonoBehaviour
     private GameObject ghost;
     private bool canPlace;
 
+    public bool IsPlacing => ghost != null;
+
     private void Awake()
     {
         if (cam == null) cam = Camera.main;
@@ -24,11 +26,16 @@ public class CookwarePlacer : MonoBehaviour
 
     private void OnSelected(SelectableData data)
     {
+        if (gameManager != null && !gameManager.IsEditing) return;
+
         Cancel();
         current = data as CookwareData;
         if (current == null) return;
 
         ghost = Instantiate(current.worldPrefab);
+        var body = ghost.GetComponent<CookwareBody>();
+        if (body != null) body.Apply(current); // sprite + tamano del ghost
+
         foreach (var c in ghost.GetComponentsInChildren<Collider2D>()) c.enabled = false;
         foreach (var s in ghost.GetComponentsInChildren<CookwareSound>()) s.enabled = false;
         SetGhostColor(new Color(1f, 1f, 1f, 0.5f));
@@ -36,6 +43,13 @@ public class CookwarePlacer : MonoBehaviour
 
     private void Update()
     {
+        // Bola soltada: se cancela la pieza en mano y no se puede editar
+        if (gameManager != null && !gameManager.IsEditing)
+        {
+            if (ghost != null) Cancel();
+            return;
+        }
+
         if (ghost == null) return;
 
         var mouse = Mouse.current;
@@ -76,8 +90,11 @@ public class CookwarePlacer : MonoBehaviour
 
     private void Place()
     {
-        Instantiate(current.worldPrefab, ghost.transform.position, ghost.transform.rotation,
+        var piece = Instantiate(current.worldPrefab, ghost.transform.position, ghost.transform.rotation,
             gameManager != null ? gameManager.PlacedRoot : null);
+
+        var body = piece.GetComponent<CookwareBody>();
+        if (body != null) body.Apply(current); // sprite, tamano, rebote y sonido propios
     }
 
     private void Cancel()

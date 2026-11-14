@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState { Building, Running, Paused }
 
 /// <summary>
 /// Coordinador de la escena Game. NO tiene fisica ni sonido:
-/// solo conoce el estado y conecta botones con BallDropper / cookware.
+/// solo conoce el estado, bloquea la edicion al soltar la bola y conecta botones.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -13,9 +14,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform placedRoot;   // padre de todo el cookware colocado
     [SerializeField] private FadePanel pausePanel;   // opcional
 
+    [Header("Bloqueo de edicion (al soltar la bola)")]
+    [SerializeField] private Selectable[] editControls; // botones que abren paneles, Clear, etc.
+    [SerializeField] private SlidePanel[] editPanels;   // paneles que se cierran al bloquear
+    [SerializeField] private Selectable dropButton;     // solo activo en Building
+
     public GameState State { get; private set; }
     public Transform PlacedRoot => placedRoot;
     public event Action<GameState> StateChanged;
+
+    // true si se puede colocar/borrar cookware y elegir cosas
+    public bool IsEditing =>
+        State == GameState.Building ||
+        (State == GameState.Paused && stateBeforePause == GameState.Building);
 
     private GameState stateBeforePause;
 
@@ -40,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     public void ClearCookware()
     {
+        if (!IsEditing) return;
         for (int i = placedRoot.childCount - 1; i >= 0; i--)
             Destroy(placedRoot.GetChild(i).gameObject);
     }
@@ -64,7 +76,22 @@ public class GameManager : MonoBehaviour
     private void SetState(GameState s)
     {
         State = s;
+        ApplyEditLock();
         StateChanged?.Invoke(s);
+    }
+
+    private void ApplyEditLock()
+    {
+        bool editing = IsEditing;
+
+        foreach (var c in editControls)
+            if (c != null) c.interactable = editing;
+
+        if (dropButton != null) dropButton.interactable = State == GameState.Building;
+
+        if (!editing)
+            foreach (var p in editPanels)
+                if (p != null) p.Close();
     }
 
     // Por si sales de la escena estando en pausa

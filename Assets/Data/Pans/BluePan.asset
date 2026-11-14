@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a30c7a8a46fd092cb2b5994ca518f23, type: 3}
+  m_Name: BluePan
+  m_EditorClassIdentifier: Assembly-CSharp::CookwareData
+  id: 2
+  displayName: Blue Pan
+  icon: {fileID: -3335939123914792166, guid: 4079aff5ce8ccced3b92eea285aeebdb, type: 3}
+  worldPrefab: {fileID: 5076909088494707944, guid: 52248151404d06e8e95764fef452a5f7, type: 3}
+  type: 1

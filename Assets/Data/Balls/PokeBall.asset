@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204db03ff27b3366cb0472591c387ddf, type: 3}
+  m_Name: PokeBall
+  m_EditorClassIdentifier: Assembly-CSharp::BallData
+  id: 2
+  displayName: Pokeball
+  icon: {fileID: 367033837, guid: ab272d49bd6acb68d8e477621a25107a, type: 3}
+  worldPrefab: {fileID: 268811058989591432, guid: 741bcd2cad78f3ee29703f55967f95f2, type: 3}
+  mass: 1
+  linearDrag: 0.05
+  angularDrag: 0.2
+  gravityScale: 1
+  material: {fileID: 6200000, guid: 21f9a1442b68ac76681f35796910664b, type: 2}

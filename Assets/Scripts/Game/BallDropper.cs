@@ -12,6 +12,9 @@ public class BallDropper : MonoBehaviour
     private GameObject ball;
     private Rigidbody2D rb;
 
+    public Transform CurrentBall => ball != null ? ball.transform : null;
+    public Vector3 DropPosition => dropPoint.position;
+
     private void OnEnable()  => ballPanel.Selected += OnSelected;
     private void OnDisable() => ballPanel.Selected -= OnSelected;
 

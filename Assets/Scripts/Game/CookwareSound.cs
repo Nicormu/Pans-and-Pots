@@ -5,13 +5,12 @@ public class CookwareSound : MonoBehaviour
 {
     [SerializeField] private AudioClip[] clips;
     [SerializeField] private Vector2 pitchRange = new(0.95f, 1.05f);
-    [SerializeField] private float minImpact = 0.5f;   // below this, no sound
-    [SerializeField] private float maxImpact = 10f;    // at or above this, full volume
-
-    private float lastPlayTime;
-    [SerializeField] private float cooldown = 0.06f;
+    [SerializeField] private float minImpact = 0.5f;   
+    [SerializeField] private float maxImpact = 10f;   
+    [SerializeField] private float cooldown = 0.06f; 
 
     private AudioSource source;
+    private float lastPlayTime;
 
     private void Awake()
     {
@@ -20,15 +19,24 @@ public class CookwareSound : MonoBehaviour
         source.spatialBlend = 0f; // 2D game
     }
 
+    // Lo llama CookwareBody con los datos del CookwareData
+    public void Configure(AudioClip[] newClips, Vector2 pitch, float min, float max)
+    {
+        if (newClips != null && newClips.Length > 0) clips = newClips;
+        pitchRange = pitch;
+        minImpact = min;
+        maxImpact = max;
+    }
+
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (clips.Length == 0) return;
+        if (clips == null || clips.Length == 0) return;
         if (Time.time - lastPlayTime < cooldown) return;
 
         float impact = col.relativeVelocity.magnitude;
         if (impact < minImpact) return;
 
-        // Heavier balls hit louder and lower
+        
         float mass = col.rigidbody != null ? col.rigidbody.mass : 1f;
         float t = Mathf.InverseLerp(minImpact, maxImpact, impact * Mathf.Sqrt(mass));
 

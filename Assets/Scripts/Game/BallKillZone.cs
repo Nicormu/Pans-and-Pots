@@ -1,3 +1,6 @@
+using UnityEngine;
+
+// Put on a wide BoxCollider2D (Is Trigger) below the play area.
 public class BallKillZone : MonoBehaviour
 {
     [SerializeField] private BallDropper dropper;
