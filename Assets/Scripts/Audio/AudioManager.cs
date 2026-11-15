@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioMixerGroup musicGroup;
     [SerializeField] private AudioMixerGroup sfxGroup;
-    [SerializeField] private string musicParam = "MusicVolume"; // parametros expuestos
+    [SerializeField] private string musicParam = "MusicVolume";
     [SerializeField] private string sfxParam = "SfxVolume";
 
     [SerializeField] private float musicFade = 1f;
@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (Instance != this) return; // duplicado que se esta destruyendo
+        if (Instance != this) return; 
         ApplyVolume(musicParam, musicVolume);
         ApplyVolume(sfxParam, sfxVolume);
     }
@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
         if (clip == null) return;
-        if (musicSource.clip == clip && musicSource.isPlaying) return; // misma cancion: no reinicia
+        if (musicSource.clip == clip && musicSource.isPlaying) return; // si es la misma cancion no se reinicia
         if (musicRoutine != null) StopCoroutine(musicRoutine);
         musicRoutine = StartCoroutine(CrossfadeTo(clip));
     }

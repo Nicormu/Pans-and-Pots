@@ -9,4 +9,7 @@ public class BallData : SelectableData
     public float angularDrag = 0.2f;
     public float gravityScale = 1f;
     public PhysicsMaterial2D material; // friction + bounciness
+
+    [Header("Easter egg (Verity xD)")]
+    public AudioClip specialSong; // si tiene clip: al soltar, suena esto y se mutean los SFX
 }

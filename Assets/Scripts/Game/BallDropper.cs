@@ -9,10 +9,15 @@ public class BallDropper : MonoBehaviour
     public event Action Respawned;
 
     private BallData current;
+    public BallData CurrentData => current;
     private GameObject ball;
     private Rigidbody2D rb;
 
+    private Vector2 launchDir = Vector2.down;
+    private float launchSpeed = 0f;
+
     public Transform CurrentBall => ball != null ? ball.transform : null;
+    public Rigidbody2D CurrentBody => rb;
     public Vector3 DropPosition => dropPoint.position;
 
     private void OnEnable()  => ballPanel.Selected += OnSelected;
@@ -21,10 +26,15 @@ public class BallDropper : MonoBehaviour
     private void OnSelected(SelectableData data)
     {
         current = data as BallData;
-        Respawn(); // choosing a different ball always resets to the drop point
+        Respawn(); 
     }
 
-    // Hook to the Reset button's OnClick
+    public void SetLaunch(Vector2 dir, float speed)
+    {
+        launchDir = dir.normalized;
+        launchSpeed = speed;
+    }
+
     public void Respawn()
     {
         if (current == null) return;
@@ -34,14 +44,14 @@ public class BallDropper : MonoBehaviour
         ball.GetComponent<BallBody>().Apply(current);
 
         rb = ball.GetComponent<Rigidbody2D>();
-        rb.simulated = false; // frozen at the drop point until Drop()
+        rb.simulated = false; 
         Respawned?.Invoke();
     }
 
-    // Hook to the Drop button's OnClick
     public void Drop()
     {
         if (rb == null) return;
         rb.simulated = true;
+        rb.linearVelocity = launchDir * launchSpeed; 
     }
 }

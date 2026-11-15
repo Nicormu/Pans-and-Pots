@@ -1,13 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class CookwareSound : MonoBehaviour
 {
+    // --- Mute global ---
+    private static readonly List<CookwareSound> all = new();
+    public static bool Muted { get; private set; }
+
+    public static void SetMuted(bool muted)
+    {
+        Muted = muted;
+        if (!muted) return;
+
+        // Corta lo que ya esté sonando
+        foreach (var s in all)
+            if (s != null && s.source != null) s.source.Stop();
+    }
+
     [SerializeField] private AudioClip[] clips;
     [SerializeField] private Vector2 pitchRange = new(0.95f, 1.05f);
-    [SerializeField] private float minImpact = 0.5f;   
-    [SerializeField] private float maxImpact = 10f;   
-    [SerializeField] private float cooldown = 0.06f; 
+    [SerializeField] private float minImpact = 0.5f;
+    [SerializeField] private float maxImpact = 10f;
+    [SerializeField] private float cooldown = 0.06f;
 
     private AudioSource source;
     private float lastPlayTime;
@@ -17,10 +32,11 @@ public class CookwareSound : MonoBehaviour
         source = gameObject.AddComponent<AudioSource>();
         source.playOnAwake = false;
         source.spatialBlend = 0f; // 2D game
-        source.outputAudioMixerGroup = AudioManager.Instance != null ? AudioManager.Instance.SfxGroup : null;
     }
 
-    // Lo llama CookwareBody con los datos del CookwareData
+    private void OnEnable()  => all.Add(this);
+    private void OnDisable() => all.Remove(this);
+
     public void Configure(AudioClip[] newClips, Vector2 pitch, float min, float max)
     {
         if (newClips != null && newClips.Length > 0) clips = newClips;
@@ -31,13 +47,13 @@ public class CookwareSound : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        if (Muted) return;
         if (clips == null || clips.Length == 0) return;
         if (Time.time - lastPlayTime < cooldown) return;
 
         float impact = col.relativeVelocity.magnitude;
         if (impact < minImpact) return;
 
-        
         float mass = col.rigidbody != null ? col.rigidbody.mass : 1f;
         float t = Mathf.InverseLerp(minImpact, maxImpact, impact * Mathf.Sqrt(mass));
 
