@@ -17,9 +17,9 @@ MonoBehaviour:
   icon: {fileID: -742174494, guid: ab272d49bd6acb68d8e477621a25107a, type: 3}
   worldSprite: {fileID: -742174494, guid: ab272d49bd6acb68d8e477621a25107a, type: 3}
   worldPrefab: {fileID: 268811058989591432, guid: 741bcd2cad78f3ee29703f55967f95f2, type: 3}
-  mass: 1
-  linearDrag: 0.05
-  angularDrag: 0.2
+  mass: 0.8
+  linearDrag: 0
+  angularDrag: 0.05
   gravityScale: 1
   material: {fileID: 6200000, guid: 58f67bafac571c8aba96e851766fa7b8, type: 2}
   specialSong: {fileID: 8300000, guid: 6b1685ef0b6b47728a051080a12d0ce9, type: 3}

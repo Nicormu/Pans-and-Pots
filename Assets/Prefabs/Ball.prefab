@@ -169,3 +169,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22536e7f1d370bfaea9252560e7f6b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallBody
+  spriteRenderer: {fileID: 4576254393507293772}

@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
-
 [DefaultExecutionOrder(-100)] // corre antes que los sliders y SceneMusic
 public class AudioManager : MonoBehaviour
 {
@@ -27,6 +26,9 @@ public class AudioManager : MonoBehaviour
     private float musicVolume;
     private float sfxVolume;
 
+    private bool eggMode;     
+    private bool musicSilenced; 
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -48,16 +50,39 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (Instance != this) return; 
-        ApplyVolume(musicParam, musicVolume);
-        ApplyVolume(sfxParam, sfxVolume);
+        if (Instance != this) return;
+        RefreshMixer();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance != this) return;
+        eggMode = false;
+        musicSilenced = false;
+        RefreshMixer();
+    }
+
+    // ---------- Silenciar (sin tocar los volumenes guardados) ----------
+    public void SetEggMode(bool on)
+    {
+        if (eggMode == on) return;
+        eggMode = on;
+        RefreshMixer();
+    }
+
+    // Bola cayendo: silencia solo la musica
+    public void SetMusicSilenced(bool on)
+    {
+        if (musicSilenced == on) return;
+        musicSilenced = on;
+        RefreshMixer();
     }
 
     // ---------- Musica ----------
     public void PlayMusic(AudioClip clip)
     {
         if (clip == null) return;
-        if (musicSource.clip == clip && musicSource.isPlaying) return; // si es la misma cancion no se reinicia
+        if (musicSource.clip == clip && musicSource.isPlaying) return; // misma cancion: no reinicia
         if (musicRoutine != null) StopCoroutine(musicRoutine);
         musicRoutine = StartCoroutine(CrossfadeTo(clip));
     }
@@ -98,18 +123,27 @@ public class AudioManager : MonoBehaviour
     public void SetMusicVolume(float v)
     {
         musicVolume = Mathf.Clamp01(v);
-        ApplyVolume(musicParam, musicVolume);
+        PlayerPrefs.SetFloat(musicParam, musicVolume);
+        RefreshMixer();
     }
 
     public void SetSfxVolume(float v)
     {
         sfxVolume = Mathf.Clamp01(v);
-        ApplyVolume(sfxParam, sfxVolume);
+        PlayerPrefs.SetFloat(sfxParam, sfxVolume);
+        RefreshMixer();
     }
 
-    private void ApplyVolume(string param, float v)
+    private void RefreshMixer()
+    {
+        float music = (eggMode || musicSilenced) ? 0f : musicVolume;
+        float sfx = eggMode ? 0f : sfxVolume;
+        SetMixer(musicParam, music);
+        SetMixer(sfxParam, sfx);
+    }
+
+    private void SetMixer(string param, float v)
     {
         if (mixer != null) mixer.SetFloat(param, Mathf.Log10(Mathf.Max(v, 0.0001f)) * 20f);
-        PlayerPrefs.SetFloat(param, v);
     }
 }

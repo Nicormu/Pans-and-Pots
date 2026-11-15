@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,7 @@ public class DropAimer : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private BallDropper dropper;
     [SerializeField] private LineRenderer line;
-    [SerializeField] private LayerMask hitMask;      
+    [SerializeField] private LayerMask hitMask;
 
     [Header("Color")]
     [SerializeField] private Color startColor = new Color(1f, 0.92f, 0.1f, 0.9f); // amarillo
@@ -15,10 +16,12 @@ public class DropAimer : MonoBehaviour
     [Header("Dirección")]
     [SerializeField] private float maxAngle = 80f;
     [SerializeField] private float rotateSpeed = 60f;
-    [SerializeField] private float launchSpeed = 5f; 
+    [SerializeField] private float launchSpeed = 5f;
 
     [Header("Predicción")]
-    [SerializeField] private float previewTime = 1.2f;
+    [SerializeField] private float previewTime = 3f;      
+    [SerializeField] private int maxBounces = 4;          
+    [SerializeField] private bool simulateBounce = true; 
 
     private float angle; // grados; + = derecha
 
@@ -58,9 +61,11 @@ public class DropAimer : MonoBehaviour
         Vector2 gravity = Physics2D.gravity * body.gravityScale;
         float drag = body.linearDamping;
 
-        Vector2 pos = body.transform.TransformPoint(circle.offset);
+        float ballBounce = circle.sharedMaterial != null ? circle.sharedMaterial.bounciness : 0f;
 
-        var pts = new System.Collections.Generic.List<Vector3> { pos };
+        Vector2 pos = body.transform.TransformPoint(circle.offset);
+        var pts = new List<Vector3> { pos };
+        int bounces = 0;
 
         for (float t = 0f; t < previewTime; t += dt)
         {
@@ -72,14 +77,29 @@ public class DropAimer : MonoBehaviour
             if (dist < 0.0001f) continue;
 
             var hit = Physics2D.CircleCast(pos, radius, delta / dist, dist, hitMask);
-            if (hit.collider != null)
+            if (hit.collider == null)
             {
-                pts.Add(hit.centroid); 
-                break;
+                pos += delta;
+                pts.Add(pos);
+                continue;
             }
 
-            pos += delta;
+            pts.Add(hit.centroid);
+
+            if (!simulateBounce || bounces >= maxBounces) break;
+
+
+            float hitBounce = hit.collider.sharedMaterial != null ? hit.collider.sharedMaterial.bounciness : 0f;
+            float bounce = Mathf.Max(ballBounce, hitBounce);
+
+            float impactSpeed = -Vector2.Dot(v, hit.normal);
+            if (impactSpeed < Physics2D.bounceThreshold || bounce <= 0f) break;
+
+            v = Vector2.Reflect(v, hit.normal) * bounce;
+
+            pos = hit.centroid + hit.normal * 0.02f;
             pts.Add(pos);
+            bounces++;
         }
 
         line.positionCount = pts.Count;

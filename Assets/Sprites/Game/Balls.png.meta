@@ -222,6 +222,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Balls_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dd2ddff4b0c6a4b69f0631a4d09819c
+      internalID: 1656343438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -243,6 +265,7 @@ TextureImporter:
       Balls_2: 367033837
       Balls_3: -859116923
       Balls_4: -742174494
+      Balls_5: 1656343438
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

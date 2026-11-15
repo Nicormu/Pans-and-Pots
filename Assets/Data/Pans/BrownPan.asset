@@ -20,7 +20,8 @@ MonoBehaviour:
   type: 1
   scale: 1.1
   material: {fileID: 6200000, guid: 67669c722d2667acdbfaa4364275d815, type: 2}
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 50c8e7cbb661f7cf6a0e0af9ee8d73ed, type: 3}
   pitchRange: {x: 0.75, y: 0.85}
   minImpact: 1
   maxImpact: 12

@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 0
   displayName: Ping Pong
   icon: {fileID: 8219566699378199167, guid: ab272d49bd6acb68d8e477621a25107a, type: 3}
-  worldSprite: {fileID: 0}
+  worldSprite: {fileID: 8219566699378199167, guid: ab272d49bd6acb68d8e477621a25107a, type: 3}
   worldPrefab: {fileID: 268811058989591432, guid: 741bcd2cad78f3ee29703f55967f95f2, type: 3}
-  mass: 0.6
-  linearDrag: 0.15
-  angularDrag: 0.1
+  mass: 0.2
+  linearDrag: 0
+  angularDrag: 0.05
   gravityScale: 0.8
   material: {fileID: 6200000, guid: 942755919da7d532ab01e459a5f0f687, type: 2}
+  specialSong: {fileID: 0}
