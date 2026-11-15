@@ -15,5 +15,12 @@ MonoBehaviour:
   id: 6
   displayName: White Pot
   icon: {fileID: 214537530280318605, guid: e4a37a1113f822eb1acaadabf9b3e12c, type: 3}
+  worldSprite: {fileID: 0}
   worldPrefab: {fileID: 2067962228630481393, guid: 29496d08c99c55e398afe0fcd9a301ca, type: 3}
   type: 0
+  scale: 1.2
+  material: {fileID: 6200000, guid: bb93a685a35100cf5a8a7f927ca61c38, type: 2}
+  clips: []
+  pitchRange: {x: 0.65, y: 0.75}
+  minImpact: 1
+  maxImpact: 12

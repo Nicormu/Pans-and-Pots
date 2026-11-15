@@ -17,6 +17,7 @@ public class CookwareSound : MonoBehaviour
         source = gameObject.AddComponent<AudioSource>();
         source.playOnAwake = false;
         source.spatialBlend = 0f; // 2D game
+        source.outputAudioMixerGroup = AudioManager.Instance != null ? AudioManager.Instance.SfxGroup : null;
     }
 
     // Lo llama CookwareBody con los datos del CookwareData

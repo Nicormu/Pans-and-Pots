@@ -15,9 +15,10 @@ MonoBehaviour:
   id: 1
   displayName: Ball 8
   icon: {fileID: 1363780102, guid: ab272d49bd6acb68d8e477621a25107a, type: 3}
+  worldSprite: {fileID: 0}
   worldPrefab: {fileID: 268811058989591432, guid: 741bcd2cad78f3ee29703f55967f95f2, type: 3}
-  mass: 1
-  linearDrag: 0.05
-  angularDrag: 0.2
+  mass: 1.6
+  linearDrag: 0.02
+  angularDrag: 0.3
   gravityScale: 1
   material: {fileID: 6200000, guid: 19bd975755c2f431c8169149108c006e, type: 2}

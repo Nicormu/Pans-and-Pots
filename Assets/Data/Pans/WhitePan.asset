@@ -15,5 +15,12 @@ MonoBehaviour:
   id: 1
   displayName: White Pan
   icon: {fileID: 1413271466350673196, guid: 4079aff5ce8ccced3b92eea285aeebdb, type: 3}
+  worldSprite: {fileID: 0}
   worldPrefab: {fileID: 5076909088494707944, guid: 52248151404d06e8e95764fef452a5f7, type: 3}
   type: 1
+  scale: 1
+  material: {fileID: 6200000, guid: a1aefca38a99d9d3fb96e3bf0eb5323f, type: 2}
+  clips: []
+  pitchRange: {x: 0.95, y: 1.05}
+  minImpact: 0.5
+  maxImpact: 9

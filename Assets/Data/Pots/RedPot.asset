@@ -15,5 +15,12 @@ MonoBehaviour:
   id: 4
   displayName: Red Pot
   icon: {fileID: -5283588002765705560, guid: e4a37a1113f822eb1acaadabf9b3e12c, type: 3}
+  worldSprite: {fileID: 0}
   worldPrefab: {fileID: 2067962228630481393, guid: 29496d08c99c55e398afe0fcd9a301ca, type: 3}
   type: 0
+  scale: 0.8
+  material: {fileID: 6200000, guid: 1b5aeb27aa6933aa3a735d135f6d7383, type: 2}
+  clips: []
+  pitchRange: {x: 1.05, y: 1.15}
+  minImpact: 0.8
+  maxImpact: 10

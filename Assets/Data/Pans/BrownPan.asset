@@ -15,5 +15,12 @@ MonoBehaviour:
   id: 0
   displayName: Normal Pan
   icon: {fileID: 7599539675828112231, guid: 4079aff5ce8ccced3b92eea285aeebdb, type: 3}
+  worldSprite: {fileID: 0}
   worldPrefab: {fileID: 5076909088494707944, guid: 52248151404d06e8e95764fef452a5f7, type: 3}
   type: 1
+  scale: 1.1
+  material: {fileID: 6200000, guid: 67669c722d2667acdbfaa4364275d815, type: 2}
+  clips: []
+  pitchRange: {x: 0.75, y: 0.85}
+  minImpact: 1
+  maxImpact: 12

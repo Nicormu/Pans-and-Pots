@@ -15,5 +15,12 @@ MonoBehaviour:
   id: 5
   displayName: Green Pot
   icon: {fileID: 5922758363074820797, guid: e4a37a1113f822eb1acaadabf9b3e12c, type: 3}
+  worldSprite: {fileID: 0}
   worldPrefab: {fileID: 2067962228630481393, guid: 29496d08c99c55e398afe0fcd9a301ca, type: 3}
   type: 0
+  scale: 1
+  material: {fileID: 6200000, guid: 3f9455e6a7222b6db8cd7efe12bf1e01, type: 2}
+  clips: []
+  pitchRange: {x: 0.85, y: 0.95}
+  minImpact: 0.8
+  maxImpact: 10
